@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>Stencil Component Starter</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+  <link href="/global/app.css" rel="stylesheet">
+  <script type="module" src="/build/web-grid.esm.js"></script>
+  <script nomodule src="/build/web-grid.js"></script>
+  <script type="text/javascript">
+
+    function getData(options) {
+      var data = [{
+        one: 'Mark',
+        two: 'Smith'
+      }, {
+        one: 'June',
+        two: 'Bug2'
+      }];
+
+      if (options.sort) {
+        console.log('has sort');
+        var dir = options.sort.dir;
+        var field = options.sort.column;
+        if (dir === 'asc') {
+          data.sort(function (a, b) {
+            if (typeof a[field] == "number") {
+              return (a[field] - b[field]);
+            } else {
+              return ((a[field] < b[field]) ? -1 : ((a[field] > b[field]) ? 1 : 0));
+            }
+          });
+        } else {
+          data.sort(function (a, b) {
+            if (typeof a[field] == "number") {
+              return (b[field] - a[field]);
+            } else {
+              return ((b[field] < a[field]) ? -1 : ((b[field] > a[field]) ? 1 : 0));
+            }
+          });
+        }
+      }
+      console.log(data);
+      return data;
+    }
+
+    function init() {
+      var cmp = document.querySelector('web-grid');
+      cmp.config = {
+        columns: [{
+          label: 'One',
+          name: 'one'
+        },{
+          label: 'Two',
+          name: 'two'
+        }],
+        dataSource: {
+          load: function(options) {
+            options.done(getData(options));
+          }
+        },
+        data2: [{
+          one: 'Mark',
+          two: 'Smith'
+        }, {
+          one: 'June',
+          two: 'Bug'
+        }]
+      };
+    }
+
+    var webGridConfig  = {
+      columns: [{
+        label: 'One',
+        name: 'one'
+      },{
+        label: 'Two',
+        name: 'two'
+      }],
+      dataSource: {
+        load: function(options) {
+          options.done(getData(options));
+        }
+      },
+      data2: [{
+        one: 'Mark',
+        two: 'Smith'
+      }, {
+        one: 'June',
+        two: 'Bug'
+      }]
+    };
+
+  </script>
+</head>
+<body>
+  <div>Hello</div>
+  <!--<button onclick="init()">Init</button>-->
+
+  <web-grid id="grid"></web-grid>
+
+
+  <script type="text/javascript">
+    document.getElementById('grid').config = webGridConfig;
+  </script>
+</body>
+</html>
